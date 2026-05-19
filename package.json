@@ -1,0 +1,31 @@
+{
+  "name": "job-search-tool",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "postinstall": "npm run build -w @job-search/shared",
+    "install:all": "npm install",
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:frontend": "npm run dev -w @job-search/frontend",
+    "dev:backend": "npm run dev -w @job-search/backend",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

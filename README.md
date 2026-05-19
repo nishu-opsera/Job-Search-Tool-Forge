@@ -1,1 +1,55 @@
-# Job-Search-Tool-Forge
+# Job Search Tool
+
+Monorepo for the Job Search Tool (React frontend + Node.js backend).
+
+## Prerequisites
+
+- Node.js 20+
+- npm 10+
+
+## Setup
+
+```bash
+npm install
+npm run build -w @job-search/shared
+```
+
+## Development
+
+Start the backend (port 3001):
+
+```bash
+npm run dev:backend
+```
+
+Start the frontend (port 5173, proxies `/api` to the backend):
+
+```bash
+npm run dev:frontend
+```
+
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| `@job-search/shared` | Shared TypeScript types (`JobCard`, etc.) |
+| `@job-search/frontend` | Vite + React + TypeScript |
+| `@job-search/backend` | Fastify + TypeScript |
+
+## Scripts (root)
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev:frontend` | Vite dev server |
+| `npm run dev:backend` | Backend dev server |
+| `npm run build` | Build all packages |
+| `npm run lint` | ESLint all packages |
+| `npm run test` | Run unit tests |
+| `npm run typecheck` | `tsc --noEmit` in all packages |
+
+## Health check
+
+```bash
+curl http://localhost:3001/api/healthz
+# {"status":"ok"}
+```
