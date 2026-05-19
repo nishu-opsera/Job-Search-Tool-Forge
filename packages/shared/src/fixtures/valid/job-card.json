@@ -1,0 +1,15 @@
+{
+  "id": "job-001",
+  "title": "Senior Software Engineer",
+  "companyName": "Acme Corp",
+  "salaryMin": 120000,
+  "salaryMax": 160000,
+  "salaryCurrency": "USD",
+  "description": "Build scalable web applications with a modern TypeScript stack.",
+  "skillTags": ["TypeScript", "React", "Node.js"],
+  "matchScore": 88,
+  "isFeatured": true,
+  "workArrangement": "remote",
+  "postedDate": "2026-05-19T12:00:00.000Z",
+  "country": "United States"
+}

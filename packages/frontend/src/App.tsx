@@ -1,12 +1,4 @@
-import type { JobCard } from "@job-search/shared";
-
-const PLACEHOLDER_JOB: JobCard = {
-  id: "placeholder-1",
-  title: "Job Search Tool",
-  company: "Forge",
-  location: "Remote",
-  postedAt: new Date().toISOString(),
-};
+import { sampleJobCard } from "@job-search/shared";
 
 export function App() {
   return (
@@ -14,10 +6,11 @@ export function App() {
       <h1>Job Search Tool</h1>
       <p>Monorepo scaffold — frontend placeholder</p>
       <article className="job-card">
-        <h2>{PLACEHOLDER_JOB.title}</h2>
+        <h2>{sampleJobCard.title}</h2>
         <p>
-          {PLACEHOLDER_JOB.company} · {PLACEHOLDER_JOB.location}
+          {sampleJobCard.companyName} · {sampleJobCard.workArrangement}
         </p>
+        <p>Match score: {sampleJobCard.matchScore}</p>
       </article>
     </main>
   );
