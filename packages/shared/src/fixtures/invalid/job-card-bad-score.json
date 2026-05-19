@@ -1,0 +1,15 @@
+{
+  "id": "job-bad",
+  "title": "Engineer",
+  "companyName": "Acme",
+  "salaryMin": 80000,
+  "salaryMax": 100000,
+  "salaryCurrency": "USD",
+  "description": "Short role description.",
+  "skillTags": ["TypeScript", "React"],
+  "matchScore": 50,
+  "isFeatured": false,
+  "workArrangement": "remote",
+  "postedDate": "2026-05-19T12:00:00.000Z",
+  "country": "US"
+}
