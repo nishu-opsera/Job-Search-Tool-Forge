@@ -2,13 +2,20 @@ import { sampleJobCard, searchRequestSchema } from "@job-search/shared";
 import Fastify from "fastify";
 import { registerSearchRoutes } from "./routes/search.js";
 import { createClaudeClient } from "./services/claude/index.js";
+import { BODY_LIMIT_BYTES, registerSecurityPlugins } from "./plugins/security.js";
 
 export interface BuildAppOptions {
   claudeClient?: ReturnType<typeof createClaudeClient>;
 }
 
-export function buildApp(options: BuildAppOptions = {}) {
-  const app = Fastify({ logger: false });
+export async function buildApp(options: BuildAppOptions = {}) {
+  const app = Fastify({
+    logger: false,
+    bodyLimit: BODY_LIMIT_BYTES,
+  });
+
+  await registerSecurityPlugins(app);
+
   const claudeClient = options.claudeClient ?? createClaudeClient();
 
   app.get("/", async () => ({
