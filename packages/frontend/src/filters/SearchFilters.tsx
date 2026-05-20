@@ -29,20 +29,21 @@ const EXPERIENCE_OPTIONS = Object.values(ExperienceLevel);
 const WORK_TYPE_OPTIONS = Object.values(WorkType);
 
 export interface SearchFiltersProps {
-  onSearch?: (request: SearchRequest) => void;
+  onSearch?: (request: SearchRequest) => void | Promise<void>;
+  isSearching?: boolean;
 }
 
-export function SearchFilters({ onSearch }: SearchFiltersProps) {
+export function SearchFilters({ onSearch, isSearching = false }: SearchFiltersProps) {
   const { filters, updateFilter, clearFilters } = useSearchFilters();
 
   const handleSearch = () => {
     const result = toSearchRequest(filters);
     if (result.success) {
-      onSearch?.(result.data);
+      void onSearch?.(result.data);
     }
   };
 
-  const canSearch = toSearchRequest(filters).success;
+  const canSearch = toSearchRequest(filters).success && !isSearching;
 
   return (
     <Stack spacing={2} component="form" aria-label="Search filters form">
@@ -152,7 +153,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
           onClick={handleSearch}
           sx={{ minHeight: 44 }}
         >
-          Search
+          {isSearching ? "Searching…" : "Search"}
         </Button>
         <Button
           type="button"
