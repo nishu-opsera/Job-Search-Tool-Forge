@@ -87,4 +87,28 @@ describe("useJobSearch", () => {
     expect(result.current.status).toBe("rate_limited");
     expect(result.current.rateLimitExpiresAt).toBeGreaterThan(Date.now());
   });
+
+  it("refresh re-runs the last search request", async () => {
+    vi.mocked(postSearch).mockResolvedValue(validResponse);
+    const { result } = renderHook(() => useJobSearch());
+
+    await act(async () => {
+      await result.current.search({
+        jobTitle: "Engineer",
+        roleFunction: "Engineering",
+        experienceLevel: "Senior",
+        keySkills: ["TypeScript"],
+        country: "US",
+        workType: "Remote",
+      });
+    });
+
+    vi.mocked(postSearch).mockClear();
+
+    await act(async () => {
+      await result.current.refresh();
+    });
+
+    expect(postSearch).toHaveBeenCalledTimes(1);
+  });
 });
