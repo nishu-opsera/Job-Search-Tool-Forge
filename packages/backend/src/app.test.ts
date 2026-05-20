@@ -6,9 +6,13 @@ describe("buildApp", () => {
     const app = buildApp();
     const response = await app.inject({ method: "GET", url: "/" });
     expect(response.statusCode).toBe(200);
-    const body = response.json() as { status: string; endpoints: { health: string } };
+    const body = response.json() as {
+      status: string;
+      endpoints: { health: string; search: string };
+    };
     expect(body.status).toBe("ok");
     expect(body.endpoints.health).toBe("/api/healthz");
+    expect(body.endpoints.search).toBe("POST /api/search");
     await app.close();
   });
 

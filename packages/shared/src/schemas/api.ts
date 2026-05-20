@@ -10,8 +10,12 @@ export const apiErrorSchema = z.object({
 
 export type ApiError = z.infer<typeof apiErrorSchema>;
 
+export const SEARCH_DISCLAIMER =
+  "Listings are AI-generated for illustrative purposes and do not represent real openings.";
+
 export const searchResponseSchema = z.object({
   jobs: z.array(jobCardSchema).length(6),
+  disclaimer: z.string(),
   requestId: z.string().uuid().optional(),
   cached: z.boolean().optional(),
 });

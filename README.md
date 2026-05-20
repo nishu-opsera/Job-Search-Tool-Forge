@@ -62,8 +62,8 @@ Copy `.env.example` to `.env` and set `MOCK_AI=true` for local development witho
 # Terminal 1
 MOCK_AI=true npm run dev:backend
 
-# Test mock Claude client (dev-only route)
-curl -s -X POST http://localhost:3001/api/dev/claude-generate \
+# Search API (WO-006)
+curl -s -X POST http://localhost:3001/api/search \
   -H 'Content-Type: application/json' \
-  -d '{"jobTitle":"Engineer","roleFunction":"Engineering","experienceLevel":"Senior","keySkills":["TypeScript"],"country":"US","workType":"Remote"}' | head -c 200
+  -d '{"jobTitle":"Engineer","roleFunction":"Engineering","experienceLevel":"Senior","keySkills":["TypeScript"],"country":"US","workType":"Remote"}' | jq '{job_count: (.jobs | length), disclaimer}'
 ```
