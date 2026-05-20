@@ -53,3 +53,17 @@ npm run dev:frontend
 curl http://localhost:3001/api/healthz
 # {"status":"ok"}
 ```
+
+## AI client (WO-005)
+
+Copy `.env.example` to `.env` and set `MOCK_AI=true` for local development without an Anthropic API key.
+
+```bash
+# Terminal 1
+MOCK_AI=true npm run dev:backend
+
+# Test mock Claude client (dev-only route)
+curl -s -X POST http://localhost:3001/api/dev/claude-generate \
+  -H 'Content-Type: application/json' \
+  -d '{"jobTitle":"Engineer","roleFunction":"Engineering","experienceLevel":"Senior","keySkills":["TypeScript"],"country":"US","workType":"Remote"}' | head -c 200
+```

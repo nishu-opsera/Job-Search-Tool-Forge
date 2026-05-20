@@ -1,0 +1,17 @@
+[
+  {
+    "id": "job-001",
+    "title": "Engineer",
+    "companyName": "Acme",
+    "salaryMin": 100000,
+    "salaryMax": 120000,
+    "salaryCurrency": "USD",
+    "description": "Role description here.",
+    "skillTags": ["TypeScript", "React", "Node.js"],
+    "matchScore": 88,
+    "isFeatured": false,
+    "workArrangement": "remote",
+    "postedDate": "2026-05-19T12:00:00.000Z",
+    "country": "US"
+  }
+]
