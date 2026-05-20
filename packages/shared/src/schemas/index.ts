@@ -9,6 +9,7 @@ export {
 } from "./claude-response.js";
 export {
   apiErrorSchema,
+  SEARCH_DISCLAIMER,
   searchResponseSchema,
   searchApiRequestSchema,
   type ApiError,

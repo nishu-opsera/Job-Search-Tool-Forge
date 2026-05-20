@@ -16,6 +16,7 @@ export {
   claudeToolUseResponseSchema,
   apiErrorSchema,
   searchResponseSchema,
+  SEARCH_DISCLAIMER,
   searchApiRequestSchema,
   quickSearchChipSchema,
   matchScoreWeightsSchema,
