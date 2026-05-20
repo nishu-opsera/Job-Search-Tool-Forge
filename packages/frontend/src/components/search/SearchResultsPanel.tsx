@@ -1,11 +1,16 @@
 import type { SearchResponse } from "@job-search/shared";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
 import { JobList } from "../job/JobList.js";
+import { type JobSortOption } from "../job/sort-jobs.js";
 import { RateLimitAlert } from "./RateLimitAlert.js";
+import { SortControl } from "./SortControl.js";
 
 export type SearchResultsStatus =
   | "idle"
@@ -20,6 +25,8 @@ export interface SearchResultsPanelProps {
   error: string | null;
   rateLimitSecondsRemaining?: number;
   onRetry?: () => void;
+  onRefresh?: () => void;
+  isRefreshing?: boolean;
 }
 
 function SearchSkeletons() {
@@ -54,7 +61,11 @@ export function SearchResultsPanel({
   error,
   rateLimitSecondsRemaining = 0,
   onRetry,
+  onRefresh,
+  isRefreshing = false,
 }: SearchResultsPanelProps) {
+  const [sort, setSort] = useState<JobSortOption>("best_match");
+
   if (status === "loading") {
     return (
       <Box role="status" aria-live="polite" aria-busy="true">
@@ -89,7 +100,30 @@ export function SearchResultsPanel({
   }
 
   if (status === "success" && data) {
-    return <JobList jobs={data.jobs} />;
+    return (
+      <Stack spacing={2}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems={{ xs: "stretch", sm: "center" }}
+          gap={1}
+        >
+          <SortControl value={sort} onChange={setSort} />
+          {onRefresh ? (
+            <Button
+              variant="outlined"
+              startIcon={<RefreshIcon />}
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              sx={{ minHeight: 44, alignSelf: { sm: "flex-start" } }}
+            >
+              Refresh
+            </Button>
+          ) : null}
+        </Stack>
+        <JobList jobs={data.jobs} sort={sort} />
+      </Stack>
+    );
   }
 
   return (

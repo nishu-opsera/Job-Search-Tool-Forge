@@ -1,5 +1,5 @@
 import type { SearchRequest, SearchResponse } from "@job-search/shared";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { postSearch, SearchClientError } from "../api/search-client.js";
 import type { SearchResultsStatus } from "../components/search/SearchResultsPanel.js";
 
@@ -12,11 +12,13 @@ export function useJobSearch() {
   const [rateLimitExpiresAt, setRateLimitExpiresAt] = useState<number | null>(
     null,
   );
+  const lastRequestRef = useRef<SearchRequest | null>(null);
 
   const search = useCallback(async (request: SearchRequest) => {
     setStatus("loading");
     setError(null);
     setData(null);
+    lastRequestRef.current = request;
 
     try {
       const response = await postSearch(request);
@@ -43,11 +45,18 @@ export function useJobSearch() {
     }
   }, []);
 
+  const refresh = useCallback(async () => {
+    if (lastRequestRef.current) {
+      await search(lastRequestRef.current);
+    }
+  }, [search]);
+
   return {
     status,
     data,
     error,
     search,
+    refresh,
     rateLimitExpiresAt,
   };
 }
