@@ -2,15 +2,16 @@ import type { JobCard as JobCardType } from "@job-search/shared";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useMemo } from "react";
-import { sortJobsFeaturedFirst } from "./job-display.js";
 import { JobCard } from "./JobCard.js";
+import { sortJobs, type JobSortOption } from "./sort-jobs.js";
 
 export interface JobListProps {
   jobs: JobCardType[];
+  sort?: JobSortOption;
 }
 
-export function JobList({ jobs }: JobListProps) {
-  const sortedJobs = useMemo(() => sortJobsFeaturedFirst(jobs), [jobs]);
+export function JobList({ jobs, sort = "best_match" }: JobListProps) {
+  const sortedJobs = useMemo(() => sortJobs(jobs, sort), [jobs, sort]);
 
   if (sortedJobs.length === 0) {
     return null;
