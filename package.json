@@ -1,0 +1,16 @@
+{
+  "name": "ws-forge",
+  "private": true,
+  "description": "Workspace root — scripts delegate to job-search/",
+  "scripts": {
+    "postinstall": "npm install --prefix job-search",
+    "install:all": "npm install --prefix job-search",
+    "dev": "npm run dev --prefix job-search",
+    "dev:frontend": "npm run dev:frontend --prefix job-search",
+    "dev:backend": "npm run dev:backend --prefix job-search",
+    "build": "npm run build --prefix job-search",
+    "lint": "npm run lint --prefix job-search",
+    "test": "npm run test --prefix job-search",
+    "typecheck": "npm run typecheck --prefix job-search"
+  }
+}
