@@ -30,7 +30,7 @@ describe("POST /api/search", () => {
   });
 
   it("returns 200 with six jobs and disclaimer", async () => {
-    const app = buildApp({
+    const app = await buildApp({
       claudeClient: new MockClaudeClient({ latencyMs: 0 }),
     });
     const response = await app.inject({
@@ -49,7 +49,7 @@ describe("POST /api/search", () => {
   });
 
   it("returns 400 for invalid request body", async () => {
-    const app = buildApp({
+    const app = await buildApp({
       claudeClient: new MockClaudeClient({ latencyMs: 0 }),
     });
     const response = await app.inject({
@@ -64,7 +64,7 @@ describe("POST /api/search", () => {
   });
 
   it("returns 400 for empty body", async () => {
-    const app = buildApp({
+    const app = await buildApp({
       claudeClient: new MockClaudeClient({ latencyMs: 0 }),
     });
     const response = await app.inject({
@@ -77,7 +77,7 @@ describe("POST /api/search", () => {
   });
 
   it("returns 429 after rate limit exceeded", async () => {
-    const app = buildApp({
+    const app = await buildApp({
       claudeClient: new MockClaudeClient({ latencyMs: 0 }),
     });
     for (let i = 0; i < 30; i++) {
@@ -104,7 +104,7 @@ describe("POST /api/search", () => {
     vi.spyOn(mockClient, "generateJobListings").mockRejectedValue(
       new ClaudeTimeoutError(),
     );
-    const app = buildApp({ claudeClient: mockClient });
+    const app = await buildApp({ claudeClient: mockClient });
     const response = await app.inject({
       method: "POST",
       url: "/api/search",
@@ -119,7 +119,7 @@ describe("POST /api/search", () => {
     vi.spyOn(mockClient, "generateJobListings").mockRejectedValue(
       new CircuitOpenError(),
     );
-    const app = buildApp({ claudeClient: mockClient });
+    const app = await buildApp({ claudeClient: mockClient });
     const response = await app.inject({
       method: "POST",
       url: "/api/search",
