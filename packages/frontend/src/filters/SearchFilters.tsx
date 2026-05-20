@@ -31,9 +31,14 @@ const WORK_TYPE_OPTIONS = Object.values(WorkType);
 export interface SearchFiltersProps {
   onSearch?: (request: SearchRequest) => void | Promise<void>;
   isSearching?: boolean;
+  isRateLimited?: boolean;
 }
 
-export function SearchFilters({ onSearch, isSearching = false }: SearchFiltersProps) {
+export function SearchFilters({
+  onSearch,
+  isSearching = false,
+  isRateLimited = false,
+}: SearchFiltersProps) {
   const { filters, updateFilter, clearFilters } = useSearchFilters();
 
   const handleSearch = () => {
@@ -43,7 +48,8 @@ export function SearchFilters({ onSearch, isSearching = false }: SearchFiltersPr
     }
   };
 
-  const canSearch = toSearchRequest(filters).success && !isSearching;
+  const canSearch =
+    toSearchRequest(filters).success && !isSearching && !isRateLimited;
 
   return (
     <Stack spacing={2} component="form" aria-label="Search filters form">
