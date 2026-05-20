@@ -1,12 +1,21 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { ThemeProvider } from "@mui/material";
+import { cleanup, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
 import { App } from "./App.js";
+import { appTheme } from "./theme/appTheme.js";
 
 describe("App", () => {
-  it("renders placeholder heading", () => {
-    render(<App />);
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(
-      "Job Search Tool",
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("renders within AppLayout shell", () => {
+    render(
+      <ThemeProvider theme={appTheme}>
+        <App />
+      </ThemeProvider>,
     );
+    expect(screen.getByRole("banner")).toBeInTheDocument();
+    expect(screen.getByRole("main")).toBeInTheDocument();
   });
 });

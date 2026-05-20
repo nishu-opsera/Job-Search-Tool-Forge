@@ -1,17 +1,28 @@
-import { sampleJobCard } from "@job-search/shared";
+import { AppLayout } from "./layout/AppLayout.js";
+import { SearchFilters } from "./filters/SearchFilters.js";
+import { SearchFiltersProvider } from "./filters/SearchFiltersContext.js";
+import { SearchResultsPanel } from "./components/search/SearchResultsPanel.js";
+import { useJobSearch } from "./hooks/useJobSearch.js";
+
+function AppContent() {
+  const { status, data, error, search } = useJobSearch();
+
+  return (
+    <AppLayout
+      filterSlot={
+        <SearchFilters onSearch={search} isSearching={status === "loading"} />
+      }
+      resultsSlot={
+        <SearchResultsPanel status={status} data={data} error={error} />
+      }
+    />
+  );
+}
 
 export function App() {
   return (
-    <main className="app">
-      <h1>Job Search Tool</h1>
-      <p>Monorepo scaffold — frontend placeholder</p>
-      <article className="job-card">
-        <h2>{sampleJobCard.title}</h2>
-        <p>
-          {sampleJobCard.companyName} · {sampleJobCard.workArrangement}
-        </p>
-        <p>Match score: {sampleJobCard.matchScore}</p>
-      </article>
-    </main>
+    <SearchFiltersProvider>
+      <AppContent />
+    </SearchFiltersProvider>
   );
 }

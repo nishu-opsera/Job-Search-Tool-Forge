@@ -16,6 +16,7 @@
     "@fastify/cors": "^10.0.2",
     "@fastify/helmet": "^13.0.1",
     "@job-search/shared": "*",
+    "dotenv": "^16.6.1",
     "fastify": "^5.2.0"
   },
   "devDependencies": {
