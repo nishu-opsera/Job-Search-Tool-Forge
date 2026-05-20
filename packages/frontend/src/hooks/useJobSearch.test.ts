@@ -24,11 +24,22 @@ const validResponse = {
 vi.mock("../api/search-client.js", () => ({
   postSearch: vi.fn(),
   SearchClientError: class SearchClientError extends Error {
-    status = 500;
+    status: number;
+    retryAfterSeconds?: number;
+    constructor(
+      message: string,
+      status: number,
+      _code?: string,
+      retryAfterSeconds?: number,
+    ) {
+      super(message);
+      this.status = status;
+      this.retryAfterSeconds = retryAfterSeconds;
+    }
   },
 }));
 
-import { postSearch } from "../api/search-client.js";
+import { postSearch, SearchClientError } from "../api/search-client.js";
 
 describe("useJobSearch", () => {
   afterEach(() => {
@@ -54,5 +65,26 @@ describe("useJobSearch", () => {
       expect(result.current.status).toBe("success");
     });
     expect(result.current.data?.jobs).toHaveLength(6);
+  });
+
+  it("enters rate_limited state on 429", async () => {
+    vi.mocked(postSearch).mockRejectedValue(
+      new SearchClientError("Too many requests", 429, "rate_limit", 30),
+    );
+    const { result } = renderHook(() => useJobSearch());
+
+    await act(async () => {
+      await result.current.search({
+        jobTitle: "Engineer",
+        roleFunction: "Engineering",
+        experienceLevel: "Senior",
+        keySkills: ["TypeScript"],
+        country: "US",
+        workType: "Remote",
+      });
+    });
+
+    expect(result.current.status).toBe("rate_limited");
+    expect(result.current.rateLimitExpiresAt).toBeGreaterThan(Date.now());
   });
 });

@@ -54,6 +54,9 @@ describe("postSearch", () => {
       vi.fn().mockResolvedValue({
         ok: false,
         status: 429,
+        headers: {
+          get: (name: string) => (name === "Retry-After" ? "60" : null),
+        },
         json: async () => ({
           error: "rate_limit_exceeded",
           message: "Too many search requests. Try again later.",
@@ -73,6 +76,7 @@ describe("postSearch", () => {
     ).rejects.toMatchObject({
       status: 429,
       message: "Too many search requests. Try again later.",
+      retryAfterSeconds: 60,
     });
     await expect(
       postSearch({
