@@ -6,7 +6,9 @@ coverage/
 .env.*
 
 .forge-commit-ready
+job-search/.forge-commit-ready
 .forge/project-id
+job-search/.forge/
 .cursor/hooks.json
 .cursor/hooks/
 .cursor/rules/forge-workflow.mdc
